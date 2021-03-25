@@ -1,19 +1,23 @@
 import React,{Component} from 'react'
 import { Form, Input, Button, Checkbox } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import {connect} from 'react-redux'
+import {createDemo1Action,createDemo2Action} from '../../redux/actions/test_action'
 import logo from './imgs/favicon.ico'
 import './css/login.less'
 
-export default class Login extends Component{
+
+class Login extends Component{
   render(){
     const onFinish = (values) => {
       console.log('Received values of form: ', values);
+      alert('your enroll now')
     };
     return (
       <div className="login">
         <header>
           <img src={logo} alt="logo"/>
-          <h1>Product Management System</h1>
+          <h1>Product Management System {this.props.testlogin}</h1>
         </header>
         <section>
           <h1>User Enroll</h1>
@@ -56,7 +60,7 @@ export default class Login extends Component{
                 <Checkbox>Remember me</Checkbox>
               </Form.Item>
 
-              <a className="login-form-forgot" href="#1">
+              <a className="login-form-forgot" href="#paw">
                 Forgot password
               </a>
             </Form.Item>
@@ -65,7 +69,7 @@ export default class Login extends Component{
               <Button type="primary" htmlType="submit" className="login-form-button">
                 Log in
               </Button>
-              Or <a href="#1">register now!</a>
+              Or <a href="#reg">register now!</a>
             </Form.Item>
           </Form>
         </section>
@@ -73,3 +77,10 @@ export default class Login extends Component{
     )
   }
 }
+export default connect(
+  state => ({testlogin:state.test}),
+  {
+    demo1:createDemo1Action,
+    demo2:createDemo2Action
+  }
+)(Login)
