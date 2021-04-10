@@ -8,8 +8,19 @@ export default class App extends Component{
     comments:[
       {id:'x89vcuboucxiuyboi7',userName:'王帅',content:'react just soso!'},
       {id:'siaudyf876sd98f7s8',userName:'丽君',content:'我觉得很容易'},
-      {id:'xcv78xv987x9vx987x',userName:'班长',content:'等我节后归来'}
     ]
+  }
+  add =(data)=>{
+    let {comments} = this.state
+    comments.unshift(data)
+    this.setState({comments})
+  }
+  deleteNode = (id)=>{
+    let {comments} = this.state
+    comments = comments.filter((data)=>{
+      return data.id !== id
+    })
+    this.setState({comments})
   }
   render(){
     return (
@@ -24,8 +35,8 @@ export default class App extends Component{
           </div>
         </header>
         <div className="container">
-          <InputNode/>
-          <List comments={this.state.comments}/>
+          <InputNode add={this.add}/>
+          <List comments={this.state.comments} deleteNode={this.deleteNode}/>
       </div>
     </div>
     )
