@@ -1,34 +1,22 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import PubSub from 'pubsub-js'
 
 export default class search extends Component {
   myRef =  React.createRef()
   searchInfo=()=>{
-    let {updateAppState} = this.props
     let keyValue = this.myRef.current.value
-    updateAppState({
-      isFirstView:false,
-      users:[],
-      loading:true,
-      errorMsg:''
-    })
+    PubSub.publish('updateAppState',{isFirstView:false,users:[],loading:true,errorMsg:''})
+    // updateAppState({isFirstView:false,users:[],loading:true,errorMsg:''})
     const URL=`https://api.github.com/search/users?q=${keyValue}`
     axios.get(URL)
     .then((response)=>{
-      updateAppState({
-      isFirstView:false,
-      users:response.data.items,
-      loading:false,
-      errorMsg:''
-      })
+      PubSub.publish('updateAppState',{isFirstView:false,users:response.data.items,loading:false,errorMsg:''})
+      // updateAppState({isFirstView:false,users:response.data.items,loading:false,errorMsg:''})
     })
     .catch((err)=>{
-      updateAppState({
-      isFirstView:false,
-      users:[],
-      loading:false,
-      errorMsg:err.message
-      })
+      PubSub.publish('updateAppState',{isFirstView:false,users:[],loading:false,errorMsg:err.message})
+      // updateAppState({isFirstView:false,users:[],loading:false,errorMsg:err.message})
     })
   }
   render() {
